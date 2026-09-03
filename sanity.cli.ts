@@ -12,4 +12,11 @@ export default defineCliConfig({
      */
     autoUpdates: true,
   },
+  typegen: {
+    enabled: true,
+    path: '../travelstories/src/**/*.{ts,tsx,js,jsx}',
+    schema: 'schema.json',
+    generates: '../travelstories/sanity.types.ts',
+    overloadClientMethods: true,
+  },
 })
