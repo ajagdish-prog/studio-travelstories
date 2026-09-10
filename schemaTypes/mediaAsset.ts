@@ -36,20 +36,18 @@ export const mediaAsset = defineType({
         }),
     }),
     defineField({
-      name: 'videoUrl',
-      title: 'Video URL',
-      description:
-        'Link to the hosted video (e.g. YouTube, Vimeo). Video is not stored as a Sanity file asset.',
-      type: 'url',
+      name: 'video',
+      title: 'Video',
+      description: 'Short video clip (under a minute), served directly — no adaptive streaming.',
+      type: 'file',
+      options: {accept: 'video/*'},
       hidden: ({parent}) => (parent as MediaAssetParent)?.kind !== 'video',
       validation: (rule) =>
-        rule
-          .uri({scheme: ['http', 'https']})
-          .custom((value, context) => {
-            const kind = (context.parent as MediaAssetParent)?.kind
-            if (kind === 'video' && !value) return 'Required for video assets'
-            return true
-          }),
+        rule.custom((value, context) => {
+          const kind = (context.parent as MediaAssetParent)?.kind
+          if (kind === 'video' && !value) return 'Required for video assets'
+          return true
+        }),
     }),
     defineField({
       name: 'thumbnail',
