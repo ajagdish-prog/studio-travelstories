@@ -25,6 +25,15 @@ export const post = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'coverPhoto',
+      title: 'Cover Photo',
+      description:
+        'Hero image for this post. Falls back to its first photo media asset when empty.',
+      type: 'reference',
+      to: [{type: 'mediaAsset'}],
+      options: {filter: 'kind == "photo"'},
+    }),
+    defineField({
       name: 'body',
       type: 'text',
       rows: 10,

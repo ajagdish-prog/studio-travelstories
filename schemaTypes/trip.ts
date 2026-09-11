@@ -19,6 +19,15 @@ export const trip = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'coverPhoto',
+      title: 'Cover Photo',
+      description:
+        'Hero image for this trip. Falls back to the first photo of the earliest post when empty.',
+      type: 'reference',
+      to: [{type: 'mediaAsset'}],
+      options: {filter: 'kind == "photo"'},
+    }),
+    defineField({
       name: 'summary',
       type: 'text',
     }),
