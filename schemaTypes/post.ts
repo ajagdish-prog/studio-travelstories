@@ -1,6 +1,8 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {DocumentTextIcon} from '@sanity/icons/DocumentText'
 
+import {richTextBlock} from './richTextBlock'
+
 export const post = defineType({
   name: 'post',
   title: 'Post',
@@ -36,35 +38,7 @@ export const post = defineType({
     defineField({
       name: 'body',
       type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-          marks: {
-            decorators: [
-              {title: 'Bold', value: 'strong'},
-              {title: 'Italic', value: 'em'},
-            ],
-            annotations: [
-              defineArrayMember({
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  defineField({
-                    name: 'href',
-                    type: 'url',
-                    title: 'URL',
-                    validation: (rule) =>
-                      rule.uri({scheme: ['http', 'https', 'mailto']}).required(),
-                  }),
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+      of: [richTextBlock(), defineArrayMember({type: 'mediaBlock'})],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -75,13 +49,6 @@ export const post = defineType({
       name: 'location',
       type: 'reference',
       to: [{type: 'location'}],
-    }),
-    defineField({
-      name: 'mediaAssets',
-      title: 'Media Assets',
-      description: 'Ordered list of media as they should appear in the post.',
-      type: 'array',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'mediaAsset'}]})],
     }),
   ],
   preview: {
